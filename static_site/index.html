@@ -233,7 +233,7 @@ footer {
         document.head.appendChild(style);
 
         // Fetch and display README.md content
-        fetch('https://github.com/MGhaith/Static-Site-Server/blob/main/README.md')
+        fetch('https://raw.githubusercontent.com/MGhaith/Static-Site-Server/main/README.md')
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
