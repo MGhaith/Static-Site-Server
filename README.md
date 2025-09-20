@@ -77,15 +77,16 @@ sudo systemctl reload nginx
 
 - Nginx will automatically respond if server_name is set correctly.
 
-### 8. Deploy with rsync (SOON)
+### 8. Deploy with rsync (Optional, Linux users)
 On your local machine, update `deploy.sh`:
 ```bash
 #!/bin/bash
-rsync -avz --delete ./static_site/ ubuntu@<EC2_PUBLIC_IP>:/var/www/mysite
-ssh ubuntu@<EC2_PUBLIC_IP> "sudo systemctl reload nginx"
+rsync -avz --delete -e "ssh -i ~/.ssh/aws-key.pem" ./static_site/ ubuntu@<EC2_PUBLIC_IP>:/var/www/mysite
+ssh -i ~/.ssh/aws-key.pem ubuntu@<EC2_PUBLIC_IP> "sudo systemctl reload nginx"
 ```
 Change the following:
 - `./static_site/` : your local folder containing `index.html`, `style.css`, `images`, etc.
+- `aws-key.pem` : your private key file for SSH access.
 - `<EC2_PUBLIC_IP>`: Your server’s public DNS.
 > **Note**: Make sure `deploy.sh` is executable: `chmod +x deploy.sh`.
 
