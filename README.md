@@ -23,7 +23,7 @@ A basic linux server configured to serve a static site.
 On your local machine:
 ```bash
 chmod 400 aws-key.pem
-ssh -i aws-key.pem ubuntu@<EC2_PUBLIC_DNS>
+ssh -i aws-key.pem ubuntu@<EC2_PUBLIC_IP>
 ```
 ### 3. Install and Configure Nginx
 ```bash
@@ -31,7 +31,7 @@ sudo apt update && sudo apt install -y nginx
 sudo systemctl enable nginx
 sudo systemctl start nginx
 ```
-> **Note**: Nginx default page is at http://<EC2_PUBLIC_DNS>.
+> **Note**: Nginx default page is at http://<EC2_PUBLIC_IP>.
 ### 4. Set Up Your Static Site
 On the server:
 ```bash
@@ -42,7 +42,7 @@ sudo chown -R $USER:$USER /var/www/mysite
 ### 5. Upload Your Static Site Files
 On your local machine (not inside SSH):
 ```bash
-scp -i aws-key.pem /path/to/your/static-site/* ubuntu@<EC2_PUBLIC_DNS>:/var/www/mysite/
+scp -i aws-key.pem /path/to/your/static-site/* ubuntu@<EC2_PUBLIC_IP>:/var/www/mysite/
 ```
 >**Note:** For repeated deploys use the `deploy.sh` script instead.
 ### 6. Configure Nginx to Serve the Site
@@ -81,12 +81,12 @@ sudo systemctl reload nginx
 On your local machine, update `deploy.sh`:
 ```bash
 #!/bin/bash
-rsync -avz --delete ./static_site/ ubuntu@<EC2_PUBLIC_DNS>:/var/www/mysite
-ssh ubuntu@<EC2_PUBLIC_DNS> "sudo systemctl reload nginx"
+rsync -avz --delete ./static_site/ ubuntu@<EC2_PUBLIC_IP>:/var/www/mysite
+ssh ubuntu@<EC2_PUBLIC_IP> "sudo systemctl reload nginx"
 ```
 Change the following:
 - `./static_site/` : your local folder containing `index.html`, `style.css`, `images`, etc.
-- `<EC2_PUBLIC_DNS>`: Your server’s public DNS.
+- `<EC2_PUBLIC_IP>`: Your server’s public DNS.
 > **Note**: Make sure `deploy.sh` is executable: `chmod +x deploy.sh`.
 
 Now you can deploy with:
