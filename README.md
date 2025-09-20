@@ -31,7 +31,7 @@ sudo apt update && sudo apt install -y nginx
 sudo systemctl enable nginx
 sudo systemctl start nginx
 ```
-> **Note**: Nginx default page is at http://<EC2_PUBLIC_IP>.
+> **Note**: Nginx default page is at http://<EC2_PUBLIC_DNS>.
 ### 4. Set Up Your Static Site
 On the server:
 ```bash
@@ -78,3 +78,22 @@ sudo systemctl reload nginx
 - Nginx will automatically respond if server_name is set correctly.
 
 ### 8. Deploy with rsync (SOON)
+On your local machine, update `deploy.sh`:
+```bash
+#!/bin/bash
+rsync -avz --delete ./static_site/ ubuntu@<EC2_PUBLIC_DNS>:/var/www/mysite
+ssh ubuntu@<EC2_PUBLIC_DNS> "sudo systemctl reload nginx"
+```
+Change the following:
+- `./static_site/` : your local folder containing `index.html`, `style.css`, `images`, etc.
+- `<EC2_PUBLIC_DNS>`: Your server’s public DNS.
+> **Note**: Make sure `deploy.sh` is executable: `chmod +x deploy.sh`.
+
+Now you can deploy with:
+```bash
+./deploy.sh
+```
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/MGhaith/Static-Site-Server/blob/main/LICENSE) file for details.
