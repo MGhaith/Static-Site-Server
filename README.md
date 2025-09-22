@@ -18,7 +18,7 @@ A basic linux server configured to serve a static site.
 
     - Launch the instance.
 
-3. Locate and copy your instance Public DNS in the EC2 dashboard.
+3. Locate and copy your instance Public IP in the EC2 dashboard.
 #### 2. Connect via SSH
 On your local machine:
 ```bash
